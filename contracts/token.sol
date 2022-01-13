@@ -26,20 +26,21 @@ contract Token {
     mapping(address => uint256) balances;
 
     constructor() {
-        balances[msg.sender] = totalSupply;
         owner = msg.sender;
+        balances[msg.sender] = totalSupply/2;
         locked = new ValueLocked(msg.sender, totalSupply/2);
     }
 
 
     function transfer(address to, uint256 amount) external {
-
         require(balances[msg.sender] >= amount, "Not enough tokens");
-
         balances[msg.sender] -= amount;
         balances[to] += amount;
     }
 
+    function valueLocked() public view returns (uint256) {
+        return totalSupply / 2;
+    }
 
     function getBalance(address account) external view returns (uint256) {
         return balances[account];
