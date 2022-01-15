@@ -46,7 +46,10 @@ export default class Dapp extends React.Component {
           <div className="col-12">
             <h1>
               {this.state.tokenData.name} 
-              ({this.state.tokenData.symbol})
+              ({this.state.tokenData.symbol}) 
+            </h1>
+            <h1>
+              Amount of locked tokens: {this.state.tokenData.valueLocked.toString()} 
             </h1>
             <p>
               Your address is <b>{this.state.selectedAddress}</b>, you have{" "}
@@ -159,8 +162,9 @@ export default class Dapp extends React.Component {
   async _getTokenData() {
     const name = await this._token.name();
     const symbol = await this._token.symbol();
-
-    this.setState({ tokenData: { name, symbol } });
+    const valueLocked = await this._token.valueLocked();
+    console.log(valueLocked.toString());
+    this.setState({ tokenData: { name, symbol, valueLocked } });
   }
 
   async _updateBalance() {
