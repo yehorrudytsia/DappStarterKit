@@ -1,17 +1,20 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
 contract ValueLocked {
     uint256 public valueLocked;
-    address public owner; 
+    address public owner;
 
     constructor(address _owner, uint256 _valueLocked) {
         valueLocked = _valueLocked;
         owner = _owner;
     }
 
-    function unlock() external view returns (uint256) {
+    function unlock(uint amount) external returns (uint256) {
         require(owner == msg.sender);
-        return valueLocked;
+        valueLocked -= amount;
+        uint256 valueUnlocked = amount;
+        return valueUnlocked;
     }
 }
 
@@ -44,5 +47,9 @@ contract Token {
 
     function getBalance(address account) external view returns (uint256) {
         return balances[account];
+    }
+
+    function unlockTokens(uint amount) external returns (uint256) {
+        return locked.unlock(amount);
     }
 }

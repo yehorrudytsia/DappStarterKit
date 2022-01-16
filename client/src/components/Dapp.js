@@ -39,7 +39,6 @@ export default class Dapp extends React.Component {
       return <Loading />;
     }
 
-
     return (
       <div className="container p-4">
         <div className="row">
@@ -56,7 +55,6 @@ export default class Dapp extends React.Component {
               <b>
                 {this.state.balance.toString()} {this.state.tokenData.symbol}
               </b>
-              .
             </p>
           </div>
         </div>

@@ -20,8 +20,6 @@ async function main() {
 
   console.log("Token address:", token.address);
 
-  console.log(token.valueLocked);
-
   const dir = __dirname + "/../client/src/contracts";
 
   if (!fs.existsSync(dir)) {
