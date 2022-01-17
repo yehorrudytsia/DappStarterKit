@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
+import "hardhat/console.sol";
+
 contract ValueLocked {
     uint256 public valueLocked;
     address public owner;
@@ -10,8 +12,8 @@ contract ValueLocked {
         owner = _owner;
     }
 
-    function unlock(uint amount) external returns (uint256) {
-        require(owner == msg.sender);
+    function unlock(address sender, uint amount) external returns (uint256) {
+        require(owner == sender);
         valueLocked -= amount;
         uint256 valueUnlocked = amount;
         return valueUnlocked;
@@ -35,7 +37,7 @@ contract Token {
     }
 
 
-    function transfer(address to, uint256 amount) external {
+    function transfer(address to, uint256 amount) public {
         require(balances[msg.sender] >= amount, "Not enough tokens");
         balances[msg.sender] -= amount;
         balances[to] += amount;
@@ -49,7 +51,10 @@ contract Token {
         return balances[account];
     }
 
-    function unlockTokens(uint amount) external returns (uint256) {
-        return locked.unlock(amount);
+    function unlockTokens(uint amount, address to) external {
+        require(msg.sender == owner, "Only owner is legible to unlock tokens");
+        uint256 unlocked = locked.unlock(msg.sender, amount);
+        balances[owner] += unlocked;
+        transfer(to, unlocked);
     }
 }

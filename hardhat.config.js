@@ -5,6 +5,7 @@ require("@nomiclabs/hardhat-waffle");
  */
 
 require("./tasks/accounts");
+require("./tasks/unlockTokens");
 
 module.exports = {
   solidity: "0.8.9",
